@@ -312,6 +312,7 @@ class AdminServiceProvider extends ServiceProvider
             'hidden',
             'coordinates',
             'custom',
+						'youtube'
         ];
 
         foreach ($formFields as $formField) {

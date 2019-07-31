@@ -7,10 +7,10 @@
         <i class="{{ $dataType->icon }}"></i> {{ __('admin.generic.viewing') }} {{ ucfirst($dataType->display_name_singular) }} &nbsp;
 
         @can('edit', $dataTypeContent)
-        <a href="{{ route('admin.'.$dataType->slug.'.edit', $dataTypeContent->getKey()) }}?{{ request()->getQueryString() }}" class="btn btn-info">
-            <span class="glyphicon glyphicon-pencil"></span>&nbsp;
-            {{ __('admin.generic.edit') }}
-        </a>
+            <a href="{{ route('admin.'.$dataType->slug.'.edit', $dataTypeContent->getKey()) }}?{{ request()->getQueryString() }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                {{ __('admin.generic.edit') }}
+            </a>
         @endcan
         <a href="{{ route('admin.'.$dataType->slug.'.index') }}?{{ request()->getQueryString() }}" class="btn btn-warning">
             <span class="glyphicon glyphicon-list"></span>&nbsp;
@@ -54,12 +54,12 @@
                                          src="{{ filter_var($dataTypeContent->{$row->field}, FILTER_VALIDATE_URL) ? $dataTypeContent->{$row->field} : Admin::image($dataTypeContent->{$row->field}) }}">
                                 @endif
                             @elseif($row->type == 'relationship')
-                                 @include('admin::formfields.relationship', ['view' => 'read', 'options' => $rowDetails])
+                                @include('admin::formfields.relationship', ['view' => 'read', 'options' => $rowDetails])
                             @elseif($row->type == 'select_dropdown' && property_exists($rowDetails, 'options') &&
                                     !empty($rowDetails->options->{$dataTypeContent->{$row->field}})
                             )
 
-                                <?php echo $rowDetails->options->{$dataTypeContent->{$row->field}};?>
+														<?php echo $rowDetails->options->{$dataTypeContent->{$row->field}};?>
                             @elseif($row->type == 'select_dropdown' && $dataTypeContent->{$row->field . '_page_slug'})
                                 <a href="{{ $dataTypeContent->{$row->field . '_page_slug'} }}">{{ $dataTypeContent->{$row->field}  }}</a>
                             @elseif($row->type == 'select_multiple')
@@ -67,15 +67,15 @@
 
                                     @foreach(json_decode($dataTypeContent->{$row->field}) as $item)
                                         @if($item->{$row->field . '_page_slug'})
-                                        <a href="{{ $item->{$row->field . '_page_slug'} }}">{{ $item->{$row->field}  }}</a>@if(!$loop->last), @endif
+                                            <a href="{{ $item->{$row->field . '_page_slug'} }}">{{ $item->{$row->field}  }}</a>@if(!$loop->last), @endif
                                         @else
-                                        {{ $item->{$row->field}  }}
+                                            {{ $item->{$row->field}  }}
                                         @endif
                                     @endforeach
 
                                 @elseif(property_exists($rowDetails, 'options'))
                                     @foreach(json_decode($dataTypeContent->{$row->field}) as $item)
-                                     {{ $rowDetails->options->{$item} . (!$loop->last ? ', ' : '') }}
+                                        {{ $rowDetails->options->{$item} . (!$loop->last ? ', ' : '') }}
                                     @endforeach
                                 @endif
                             @elseif(in_array($row->type, ['date', 'timestamp']))
@@ -83,12 +83,12 @@
                             @elseif($row->type == 'checkbox')
                                 @if($rowDetails && property_exists($rowDetails, 'on') && property_exists($rowDetails, 'off'))
                                     @if($dataTypeContent->{$row->field})
-                                    <span class="label label-info">{{ $rowDetails->on }}</span>
+                                        <span class="label label-info">{{ $rowDetails->on }}</span>
                                     @else
-                                    <span class="label label-primary">{{ $rowDetails->off }}</span>
+                                        <span class="label label-primary">{{ $rowDetails->off }}</span>
                                     @endif
                                 @else
-                                {{ $dataTypeContent->{$row->field} }}
+                                    {{ $dataTypeContent->{$row->field} }}
                                 @endif
                             @elseif($row->type == 'color')
                                 <span class="badge badge-lg" style="background-color: {{ $dataTypeContent->{$row->field} }}">{{ $dataTypeContent->{$row->field} }}</span>
@@ -110,6 +110,10 @@
                                         Download
                                     </a>
                                 @endif
+                            @elseif($row->type == 'youtube')
+                                <iframe  src="https://www.youtube.com/embed/{{ $dataTypeContent->{$row->field} }}" frameborder="0"
+                                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                         allowfullscreen></iframe>
                             @else
                                 @include('admin::multilingual.input-hidden-bread-read')
                                 <p>{{ $dataTypeContent->{$row->field} }}</p>
@@ -128,11 +132,11 @@
 
 @section('javascript')
     @if ($isModelTranslatable)
-    <script>
-        $(document).ready(function () {
-            $('.side-body').multilingual();
-        });
-    </script>
-    <script src="{{ admin_asset('js/multilingual.js') }}"></script>
+        <script>
+					$(document).ready(function () {
+						$('.side-body').multilingual();
+					});
+        </script>
+        <script src="{{ admin_asset('js/multilingual.js') }}"></script>
     @endif
 @stop
