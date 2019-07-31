@@ -203,9 +203,7 @@
 
                             </div><!-- panel-body -->
 
-                            <div class="panel-footer">
-                                <button type="submit" class="btn btn-primary save">{{ __('admin.generic.save') }}</button>
-                            </div>
+                            @include('admin::crud.partials.edit-add-footer')
                         </form>
 
                         <iframe id="form_target" name="form_target" style="display:none"></iframe>
