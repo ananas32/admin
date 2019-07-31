@@ -15,7 +15,7 @@ require('./jquery-nestable');
 require('bootstrap');
 require('bootstrap-switch');
 require('select2');
-require('bootstrap-datetimepicker/src/js/bootstrap-datetimepicker');
+require('eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker');
 var brace = require('brace');
 require('brace/mode/json');
 require('brace/theme/github');
@@ -94,9 +94,13 @@ $(document).ready(function(){
     $this.closest('.panel').toggleClass('is-fullscreen');
   });
 
-  $('.datepicker').datetimepicker();
+	if ($('.datepicker').length) {
+		$.each($('.datepicker'), function(i, datepicker){
+			$(datepicker).datetimepicker($(datepicker).data('datetimepicker'));
+		});
+	}
 
-  // Save shortcut
+	// Save shortcut
   $(document).keydown(function (e){
     if ((e.metaKey || e.ctrlKey) && e.keyCode == 83) { /*ctrl+s or command+s*/
       $(".btn.save").click();

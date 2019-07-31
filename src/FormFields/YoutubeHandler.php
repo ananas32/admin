@@ -6,28 +6,25 @@ use Illuminate\Http\Request;
 
 class YoutubeHandler extends AbstractHandler
 {
-    protected $codename = 'youtube';
+	protected $codename = 'youtube';
 
-    public function createContent($row, $dataType, $dataTypeContent, $options)
-    {
-        return view('admin::formfields.youtube', [
-            'row'             => $row,
-            'options'         => $options,
-            'dataType'        => $dataType,
-            'dataTypeContent' => $dataTypeContent,
-        ]);
-    }
+	public function createContent($row, $dataType, $dataTypeContent, $options)
+	{
+		return view('admin::formfields.youtube', [
+			'row' => $row,
+			'options' => $options,
+			'dataType' => $dataType,
+			'dataTypeContent' => $dataTypeContent,
+		]);
+	}
 
-    public function getContentBasedOnType(Request $request, $slug, $row)
-    {
-			$content = $request->input($row->field);
+	public function getContentBasedOnType(Request $request, $slug, $row)
+	{
+		$content = $request->input($row->field);
 
-			parse_str(parse_url($content, PHP_URL_QUERY), $urlComponents);
-
-			if (isset($urlComponents['v'])) {
-				return $urlComponents['v'];
-			}
-
+		if (strripos($content, 'youtu') === false) {
+			return $content;
+		} else {
 			$pattern =
 				'%^             # Match any youtube URL
             (?:https?://)?  # Optional scheme. Either http or https
@@ -47,5 +44,7 @@ class YoutubeHandler extends AbstractHandler
 			preg_match($pattern, $content, $matches);
 
 			return $matches[1] ?? null;
-    }
+
+		}
+	}
 }
