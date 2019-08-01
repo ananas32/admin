@@ -9875,4 +9875,21 @@ title, .panel-warning .panel-title {
     font-weight: 400;
     color: #526069;
 }
+
+//sanek fixes
+.select2-dropdown {
+  z-index: 999999;
+}
+
+.panel-heading {
+  position: relative;
+}
+
+.panel-actions{
+  position: absolute;
+  top: 50%;
+  margin-top: -9px;
+  right: 15px;
+}
+//! sanek fixes
 /********** END Laravel admin panel styles **********/
