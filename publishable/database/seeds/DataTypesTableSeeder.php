@@ -14,8 +14,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'posts',
-                'display_name_singular' => 'Post',
-                'display_name_plural'   => 'Posts',
+                'display_name_singular' => 'Запис',
+                'display_name_plural'   => 'Записи',
                 'icon'                  => 'admin-news',
                 'model_name'            => 'LaravelAdminPanel\\Models\\Post',
                 'policy_name'           => 'LaravelAdminPanel\\Policies\\PostPolicy',
@@ -29,8 +29,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'pages',
-                'display_name_singular' => 'Page',
-                'display_name_plural'   => 'Pages',
+                'display_name_singular' => 'Сторінка',
+                'display_name_plural'   => 'Сторінки',
                 'icon'                  => 'admin-file-text',
                 'model_name'            => 'LaravelAdminPanel\\Models\\Page',
                 'controller'            => '',
@@ -43,8 +43,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'users',
-                'display_name_singular' => 'User',
-                'display_name_plural'   => 'Users',
+                'display_name_singular' => 'Користувач',
+                'display_name_plural'   => 'Користувачі',
                 'icon'                  => 'admin-person',
                 'model_name'            => 'LaravelAdminPanel\\Models\\User',
                 'policy_name'           => 'LaravelAdminPanel\\Policies\\UserPolicy',
@@ -58,8 +58,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'slug'                  => 'categories',
-                'display_name_singular' => 'Category',
-                'display_name_plural'   => 'Categories',
+                'display_name_singular' => 'Категорія',
+                'display_name_plural'   => 'Категорії',
                 'icon'                  => 'admin-categories',
                 'model_name'            => 'LaravelAdminPanel\\Models\\Category',
                 'controller'            => '',
@@ -72,8 +72,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'menus',
-                'display_name_singular' => 'Menu',
-                'display_name_plural'   => 'Menus',
+                'display_name_singular' => 'Меню',
+                'display_name_plural'   => 'Меню',
                 'icon'                  => 'admin-list',
                 'model_name'            => 'LaravelAdminPanel\\Models\\Menu',
                 'controller'            => '',
@@ -86,8 +86,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'roles',
-                'display_name_singular' => 'Role',
-                'display_name_plural'   => 'Roles',
+                'display_name_singular' => 'Роль',
+                'display_name_plural'   => 'Ролі',
                 'icon'                  => 'admin-lock',
                 'model_name'            => 'LaravelAdminPanel\\Models\\Role',
                 'controller'            => '',
@@ -100,8 +100,8 @@ class DataTypesTableSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'form_designer',
-                'display_name_singular' => 'Form Designer',
-                'display_name_plural'   => 'Forms Designer',
+                'display_name_singular' => 'Дизайнер форм',
+                'display_name_plural'   => 'Дизайнер форм',
                 'icon'                  => 'designer-list',
                 'model_name'            => 'LaravelAdminPanel\\Models\\FormDesigner',
                 'controller'            => '',

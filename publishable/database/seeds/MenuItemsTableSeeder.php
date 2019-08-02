@@ -20,7 +20,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Dashboard',
+                'title'   => 'Панель приладів',
                 'url'     => '',
                 'route'   => 'admin.dashboard',
             ]);
@@ -36,7 +36,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Media',
+                'title'   => 'Медіа',
                 'url'     => '',
                 'route'   => 'admin.media.index',
             ]);
@@ -52,7 +52,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Posts',
+                'title'   => 'Записи',
                 'url'     => '',
                 'route'   => 'admin.posts.index',
             ]);
@@ -68,7 +68,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Users',
+                'title'   => 'Користувачі',
                 'url'     => '',
                 'route'   => 'admin.users.index',
             ]);
@@ -84,7 +84,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Categories',
+                'title'   => 'Категорії',
                 'url'     => '',
                 'route'   => 'admin.categories.index',
             ]);
@@ -100,7 +100,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Pages',
+                'title'   => 'Сторінки',
                 'url'     => '',
                 'route'   => 'admin.pages.index',
             ]);
@@ -116,7 +116,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Roles',
+                'title'   => 'Ролі',
                 'url'     => '',
                 'route'   => 'admin.roles.index',
             ]);
@@ -132,7 +132,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $toolsMenuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Tools',
+                'title'   => 'Інструменти',
                 'url'     => '',
             ]);
             if (!$toolsMenuItem->exists) {
@@ -147,7 +147,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Menu Builder',
+                'title'   => 'Конструктор меню',
                 'url'     => '',
                 'route'   => 'admin.menus.index',
             ]);
@@ -163,7 +163,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id'    => $menu->id,
-                'title'      => 'Form Designer',
+                'title'      => 'Дизайнер форм',
                 'url'        => '',
                 'route'      => 'admin.form-designer.index',
             ]);
@@ -179,7 +179,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Database',
+                'title'   => 'База даних',
                 'url'     => '',
                 'route'   => 'admin.database.index',
             ]);
@@ -195,7 +195,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Compass',
+                'title'   => 'Компас',
                 'url'     => route('admin.compass.index', [], false),
             ]);
             if (!$menuItem->exists) {
@@ -210,7 +210,7 @@ class MenuItemsTableSeeder extends Seeder
 
             $menuItem = MenuItem::firstOrNew([
                 'menu_id' => $menu->id,
-                'title'   => 'Settings',
+                'title'   => 'Налаштування',
                 'url'     => '',
                 'route'   => 'admin.settings.index',
             ]);

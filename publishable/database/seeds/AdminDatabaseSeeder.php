@@ -5,23 +5,25 @@ use LaravelAdminPanel\Traits\Seedable;
 
 class AdminDatabaseSeeder extends Seeder
 {
-    use Seedable;
+	use Seedable;
 
-    protected $seedersPath = __DIR__.'/';
+	protected $seedersPath = __DIR__ . '/';
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        $this->seed('DataTypesTableSeeder');
-        $this->seed('DataRowsTableSeeder');
-        $this->seed('MenusTableSeeder');
-        $this->seed('MenuItemsTableSeeder');
-        $this->seed('RolesTableSeeder');
-        $this->seed('PermissionsTableSeeder');
-        $this->seed('PermissionRoleTableSeeder');
-    }
+	/**
+	 * Run the database seeds.
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		$this->seed('DataTypesTableSeeder');
+		$this->seed('DataRowsTableSeeder');
+		$this->seed('MenusTableSeeder');
+		$this->seed('MenuItemsTableSeeder');
+		$this->seed('RolesTableSeeder');
+		$this->seed('PermissionsTableSeeder');
+		$this->seed('PermissionRoleTableSeeder');
+		$this->seed('FormDesignerTableSeeder');
+		$this->seed('SettingsTableSeeder');
+	}
 }

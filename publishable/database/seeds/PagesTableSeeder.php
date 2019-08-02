@@ -25,7 +25,7 @@ class PagesTableSeeder extends Seeder
                 'image'            => 'pages/page1.jpg',
                 'meta_description' => 'Yar Meta Description',
                 'meta_keywords'    => 'Keyword1, Keyword2',
-                'status'           => 'ACTIVE',
+                'status'           => '1',
             ])->save();
         }
     }
