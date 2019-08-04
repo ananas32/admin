@@ -165,17 +165,17 @@ return [
     'dashboard' => [
         // Add custom list items to navbar's dropdown
         'navbar_items' => [
-            'Profile' => [
+            'Профіль' => [
                 'route'      => 'admin.profile',
                 'classes'    => 'class-full-of-rum',
                 'icon_class' => 'admin-person',
             ],
-            'Home' => [
+            'Головна' => [
                 'route'        => '/',
                 'icon_class'   => 'admin-home',
                 'target_blank' => true,
             ],
-            'Logout' => [
+            'Вихід' => [
                 'route'      => 'admin.logout',
                 'icon_class' => 'admin-power',
             ],
