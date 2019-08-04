@@ -1,6 +1,8 @@
 window.jQuery = window.$ = $ = require('jquery');
 window.Vue = require('vue');
 window.perfectScrollbar = require('perfect-scrollbar/jquery')($);
+window.Cropper = require('cropperjs');
+window.Cropper = 'default' in window.Cropper ? window.Cropper['default'] : window.Cropper;
 window.toastr = require('./toastr');
 window.DataTable = require('./bootstrap-datatables');
 window.SimpleMDE = require('simplemde');
@@ -25,7 +27,6 @@ require('./multilingual');
 require('./admin_tinymce');
 require('./admin_ace_editor');
 window.helpers = require('./helpers.js');
-require('cropperjs');
 window.Image = require('./cropper');
 
 $(document).ready(function(){

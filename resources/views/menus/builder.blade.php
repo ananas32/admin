@@ -110,7 +110,7 @@
 						<select id="m_target" class="form-control" name="target">
 							<option value="_self" selected="selected">{{ __('admin.menu_builder.open_same') }}</option>
 							<option value="_blank">{{ __('admin.menu_builder.open_new') }}</option>
-						</select>
+						</select><br>
 
 						<div>
 							<label for="details">{{ __('admin.database.optional_details') }}</label>
