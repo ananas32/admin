@@ -364,21 +364,30 @@
         });
 
 
-        var deleteFormAction;
-        $('td').on('click', '.delete', function (e) {
-            var form = $('#delete_form')[0];
+		var deleteFormAction;
+		$('td').on('click', '.delete', function (e) {
+			var form = $('#delete_form')[0];
 
-            if (!deleteFormAction) { // Save form action initial value
-                deleteFormAction = form.action;
-            }
+			if (!deleteFormAction) { // Save form action initial value
+				deleteFormAction = form.action;
+			}
+			var strAction = $(this).closest('div.panel-body').parent().find('a.btn-add-new').attr('href');
 
-            form.action = deleteFormAction.match(/\/[0-9]+$/)
-                ? deleteFormAction.replace(/([0-9]+$)/, $(this).data('id'))
-                : deleteFormAction + '/' + $(this).data('id');
+			if(strAction == undefined){
+				strAction = form.action;
+			} else {
+				strAction = strAction.substring(0, strAction.indexOf('?'));
+				strAction = strAction.replace('/create','');
+			}
 
-            form.action = form.action + "?{{ $requestQuery }}".replace(/&amp;/g, '&');
+			form.action = strAction.match(/\/[0-9]+$/)
+				? strAction.replace(/([0-9]+$)/, $(this).data('id'))
+				: strAction + '/' + $(this).data('id');
+			form.action = form.action + "?{{ $requestQuery }}".replace(/&amp;/g, '&');
 
-            $('#delete_modal').modal('show');
-        });
+			$('#delete_form').attr('action', form.action);
+
+			$('#delete_modal').modal('show');
+		});
     </script>
 @stop
