@@ -62,17 +62,17 @@
         @yield('datatable_header')
         <table id="dataTable" class="table table-hover" data-json-datatable="{{ $jsonDataTable }}">
             <thead>
-                <tr>
-                    @can('delete', app($dataType->model_name))
-                        <th></th>
-                    @endcan
-                    @foreach($dataType->browseRows as $row)
+            <tr>
+                @can('delete', app($dataType->model_name))
+                    <th></th>
+                @endcan
+                @foreach($dataType->browseRows as $row)
                     <th>
                         {{ $row->display_name }}
                     </th>
-                    @endforeach
-                    <th class="actions">{{ __('admin.generic.actions') }}</th>
-                </tr>
+                @endforeach
+                <th class="actions">{{ __('admin.generic.actions') }}</th>
+            </tr>
             </thead>
         </table>
     </div>
@@ -96,27 +96,27 @@
 </div>
 
 @section('popup')
-{{-- Single delete modal --}}
-<div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('admin.generic.close') }}"><span
+    {{-- Single delete modal --}}
+    <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('admin.generic.close') }}"><span
                             aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="admin-trash"></i> {{ __('admin.generic.delete_question') }} {{ strtolower($dataType->display_name_singular) }}?</h4>
-            </div>
-            <div class="modal-footer">
-                <form action="{{ route('admin.'.$dataType->slug.'.index') }}" id="delete_form" method="POST">
-                    {{ method_field("DELETE") }}
-                    {{ csrf_field() }}
-                    <input type="submit" class="btn btn-danger pull-right delete-confirm"
-                             value="{{ __('admin.generic.delete_confirm') }} {{ strtolower($dataType->display_name_singular) }}">
-                </form>
-                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('admin.generic.cancel') }}</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                    <h4 class="modal-title"><i class="admin-trash"></i> {{ __('admin.generic.delete_question') }} {{ strtolower($dataType->display_name_singular) }}?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('admin.'.$dataType->slug.'.index') }}" id="delete_form" method="POST">
+                        {{ method_field("DELETE") }}
+                        {{ csrf_field() }}
+                        <input type="submit" class="btn btn-danger pull-right delete-confirm"
+                               value="{{ __('admin.generic.delete_confirm') }} {{ strtolower($dataType->display_name_singular) }}">
+                    </form>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{ __('admin.generic.cancel') }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @stop
 
 @section('css')
@@ -147,113 +147,135 @@
     @endif
 
     <script>
-        $(document).ready(function () {
-            @if ($dataType->pagination !== 'php')
-                var table = $('#dataTable');
+			$(document).ready(function () {
 
-                var baseDatatableConfig = {!! json_encode(
+				$('#dataTable').on('draw.dt', function () {
+					$('.toggleswitch').bootstrapToggle();
+				});
+
+				$('#dataTable').on('change', '.toggleswitch', function (e) {
+					var data = {};
+					var column = $(this).attr('name');
+					var checked = +$(this).prop('checked')
+					data[column] = checked;
+					$.post('{{ route('admin.api.update') }}', {
+						table_name: "{{ $dataType->name }}",
+						where: ["id", $(this).data('id')],
+						data: data,
+						dataType: 'json',
+						_token: '{{ csrf_token() }}'
+					}).done(function () {
+						toastr.success("Данные успешно сохранены");
+					}).fail(function (data, type, error) {
+						toastr.error(type, error);
+					});
+				});
+              @if ($dataType->pagination !== 'php')
+				var table = $('#dataTable');
+
+				var baseDatatableConfig = {!! json_encode(
                     array_merge([
                         "order" => [],
                         "language" => __('admin.datatable'),
                     ])
                 , true) !!};
 
-                var crudDatatableConfig = table.data('json-datatable');
+				var crudDatatableConfig = table.data('json-datatable');
 
-                var search = window.location.search.substring(1);
-                var queryParams = {};
+				var search = window.location.search.substring(1);
+				var queryParams = {};
 
-                if (search) {
-                    queryParams = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
-                }
-  
-                var datatableAjaxConfig = {
-                    serverSide: true,
-                        ajax: {
-                            url: "{{ route('admin.get-ajax-list') }}",
-                                type: "POST",
-                                data: $.extend({
-                                "slug": "{{ $slug }}",
-                            }, queryParams),
-                        },
-                    columns: [
-                        @can('delete', app($dataType->model_name))
-                            {data: "delete_checkbox", orderable: false, searchable: false},
-                        @endcan
-                         @foreach($dataType->browseRows as $row)
-                            @if($row->type === 'relationship')
-                        {data: "{{ $row->field }}", orderable: false},
-                            @else
-                        {data: "{{ $row->field }}"},
-                            @endif
-                        @endforeach
-                        {data: "actions", orderable: false, searchable: false, className: "no-sort no-click crud-actions"},
-                    ]
-                };
+				if (search) {
+					queryParams = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+				}
 
-                var datatableConfig = $.extend(baseDatatableConfig, crudDatatableConfig, datatableAjaxConfig);
+				var datatableAjaxConfig = {
+					serverSide: true,
+					ajax: {
+						url: "{{ route('admin.get-ajax-list') }}",
+						type: "POST",
+						data: $.extend({
+							"slug": "{{ $slug }}",
+						}, queryParams),
+					},
+					columns: [
+                  @can('delete', app($dataType->model_name))
+						{data: "delete_checkbox", orderable: false, searchable: false},
+                  @endcan
+                  @foreach($dataType->browseRows as $row)
+                  @if($row->type === 'relationship')
+						{data: "{{ $row->field }}", orderable: false},
+                  @else
+						{data: "{{ $row->field }}"},
+                  @endif
+                  @endforeach
+						{data: "actions", orderable: false, searchable: false, className: "no-sort no-click crud-actions"},
+					]
+				};
 
-                table.DataTable(datatableConfig);
+				var datatableConfig = $.extend(baseDatatableConfig, crudDatatableConfig, datatableAjaxConfig);
 
-                @if (isset($dataTypeOptions->datatable->rowReorder))
-                    @php
-                        $datatableOrderColumn = '';
-                        if (isset($dataTypeOptions->datatable->rowReorder->order_column)) {
-                            $datatableOrderColumn = $dataTypeOptions->datatable->rowReorder->order_column;
-                        }
-                    @endphp
+				table.DataTable(datatableConfig);
 
-                    dataTable.on('row-reorder', function (e, diff, edit) {
-                        var data = $("#dataTable tr")
-                           // get all sibling tr
-                           .siblings()
-                           // iterate over elements using map and generate array elelements
-                           .map(function(){
-                           // get data attribute value
-                           return $(this).data();
-                           // get the result object as an array using get method
-                        }).get();
+				@if (isset($dataTypeOptions->datatable->rowReorder))
+						@php
+								$datatableOrderColumn = '';
+								if (isset($dataTypeOptions->datatable->rowReorder->order_column)) {
+										$datatableOrderColumn = $dataTypeOptions->datatable->rowReorder->order_column;
+								}
+						@endphp
 
-                        $.post('{{ route('admin.api.order') }}', {
-                            data: JSON.stringify(data),
-                            table_name: "{{ $dataType->name }}",
-                            order_by: "{{ $datatableOrderColumn }}",
-                            dataType: 'json',
-                            _token: '{{ csrf_token() }}'
-                        }).done(function() {
-                            toastr.success("Порядок успешно обновлен ({{ $dataType->display_name_singular }})");
-                        }).fail(function(data, type, error) {
-                            toastr.error(type, error);
-                        });
-                    });
-                @endif
+dataTable.on('row-reorder', function (e, diff, edit) {
+					var data = $("#dataTable tr")
+					// get all sibling tr
+						.siblings()
+						// iterate over elements using map and generate array elelements
+						.map(function(){
+							// get data attribute value
+							return $(this).data();
+							// get the result object as an array using get method
+						}).get();
 
-            @else
-                $('#search-input select').select2({
-                    minimumResultsForSearch: Infinity
-                });
-            @endif
+					$.post('{{ route('admin.api.order') }}', {
+						data: JSON.stringify(data),
+						table_name: "{{ $dataType->name }}",
+						order_by: "{{ $datatableOrderColumn }}",
+						dataType: 'json',
+						_token: '{{ csrf_token() }}'
+					}).done(function() {
+						toastr.success("Порядок успешно обновлен ({{ $dataType->display_name_singular }})");
+					}).fail(function(data, type, error) {
+						toastr.error(type, error);
+					});
+				});
+				@endif
 
-            @if ($isModelTranslatable)
-                $('.side-body').multilingual();
-            @endif
-        });
+		@else
+$('#search-input select').select2({
+					minimumResultsForSearch: Infinity
+				});
+				@endif
 
-        var deleteFormAction;
-        $('#dataTable').on('click', '.delete', function (e) {
-            var form = $('#delete_form')[0];
+				@if ($isModelTranslatable)
+$('.side-body').multilingual();
+          @endif
+			});
 
-            if (!deleteFormAction) { // Save form action initial value
-                deleteFormAction = form.action;
-            }
+			var deleteFormAction;
+			$('#dataTable').on('click', '.delete', function (e) {
+				var form = $('#delete_form')[0];
 
-            form.action = deleteFormAction.match(/\/[0-9]+$/)
-                ? deleteFormAction.replace(/([0-9]+$)/, $(this).data('id'))
-                : deleteFormAction + '/' + $(this).data('id');
+				if (!deleteFormAction) { // Save form action initial value
+					deleteFormAction = form.action;
+				}
 
-            form.action = form.action + "?{{ $requestQuery }}".replace(/&amp;/g, '&');
+				form.action = deleteFormAction.match(/\/[0-9]+$/)
+					? deleteFormAction.replace(/([0-9]+$)/, $(this).data('id'))
+					: deleteFormAction + '/' + $(this).data('id');
 
-            $('#delete_modal').modal('show');
-        });
+				form.action = form.action + "?{{ $requestQuery }}".replace(/&amp;/g, '&');
+
+				$('#delete_modal').modal('show');
+			});
     </script>
 @stop
